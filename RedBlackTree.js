@@ -113,3 +113,38 @@
     return this._get(this._root, key);
   };
 
+  exports.RBTree.prototype._get = function (node, key) {
+    if (node === null) {
+      return undefined;
+    }
+    if (node.getKey() === key) {
+      return node.getValue();
+    }
+    if (node.getKey() > key) {
+      return this._get(node.getLeft(), key);
+    } else {
+      return this._get(node.getRight(), key);
+    }
+  };
+
+  exports.RBTree.prototype.levelOrderTraversal = function () {
+    var queue = [];
+    var levelOrderString = '';
+    if (this._root){
+      queue.push(this._root);
+    } else {
+      levelOrderString = ' Tree is empty';
+    }
+    while (queue.length !== 0){
+      var tempNode = queue.shift();
+      levelOrderString += ' ' + tempNode.getKey();
+      if (tempNode.getLeft() !== null){
+        queue.push(tempNode.getLeft());
+      }
+      if (tempNode.getRight() !== null){
+        queue.push(tempNode.getRight());
+      }
+    }
+    return 'Level Order Traversal -:' + levelOrderString;
+  };
+})(typeof window === 'undefined' ? module.exports : window);
